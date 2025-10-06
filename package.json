@@ -48,13 +48,13 @@
     ],
     "scripts": {
         "fetch:spec-types": "curl -o spec.types.ts https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/refs/heads/main/schema/draft/schema.ts",
-        "build": "npm run build:esm && npm run build:cjs",
-        "build:esm": "mkdir -p dist/esm && echo '{\"type\": \"module\"}' > dist/esm/package.json && tsc -p tsconfig.prod.json",
+        "build": "vite build",
+        "build:esm": "vite build",
         "build:esm:w": "npm run build:esm -- -w",
-        "build:cjs": "mkdir -p dist/cjs && echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json && tsc -p tsconfig.cjs.json",
+        "build:cjs": "vite build",
         "build:cjs:w": "npm run build:cjs -- -w",
         "examples:simple-server:w": "tsx --watch src/examples/server/simpleStreamableHttp.ts --oauth",
-        "prepack": "npm run build:esm && npm run build:cjs",
+        "prepack": "npm run build",
         "lint": "eslint src/ && prettier --check .",
         "test": "npm run fetch:spec-types && jest",
         "start": "npm run server",
@@ -97,6 +97,7 @@
         "tsx": "^4.16.5",
         "typescript": "^5.5.4",
         "typescript-eslint": "^8.0.0",
+        "vite": "^5.4.8",
         "ws": "^8.18.0"
     },
     "resolutions": {
