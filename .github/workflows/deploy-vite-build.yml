@@ -46,7 +46,7 @@ jobs:
               with:
                   repository: ploinkyRepos/MCPSDK
                   path: deploy
-                  token: ${{ secrets.PLOINKY_PAT }}
+                  token: ${{ secrets.PLOINKY_PAT != '' && secrets.PLOINKY_PAT || github.token }}
 
             - name: Replace deployment contents
               run: |
