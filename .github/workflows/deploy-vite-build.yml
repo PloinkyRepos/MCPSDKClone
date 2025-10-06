@@ -1,0 +1,59 @@
+name: Build and Deploy via Vite
+
+on:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+
+        steps:
+            - name: Checkout source
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build with Vite
+              run: npx vite build
+
+            - name: Checkout deployment repository
+              uses: actions/checkout@v4
+              with:
+                  repository: ploinkyRepos/MCPSDK
+                  path: deploy
+                  token: ${{ secrets.PLOINKY_PAT }}
+
+            - name: Replace deployment contents
+              run: |
+                  find deploy -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+                  cp -r dist/. deploy/
+
+            - name: Commit and push
+              run: |
+                  cd deploy
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  if [ -n "$(git status --short)" ]; then
+                      git add .
+                      git commit -m "Deploy Vite build from ${GITHUB_SHA}"
+                      git push origin HEAD:main
+                  else
+                      echo "No changes to commit"
+                  fi
+              env:
+                  GITHUB_SHA: ${{ github.sha }}
