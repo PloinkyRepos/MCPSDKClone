@@ -19,16 +19,6 @@ jobs:
             - name: Checkout source
               uses: actions/checkout@v4
 
-            - name: Ensure index entry point
-              run: |
-                  cat <<'EOF' > src/index.ts
-                  import * as mcp from './server/mcp.js';
-                  import * as streamHttp from './server/streamableHttp.js';
-                  import * as types from './types.js';
-
-                  export { mcp, streamHttp, types };
-                  EOF
-
             - name: Setup Node.js
               uses: actions/setup-node@v4
               with:
