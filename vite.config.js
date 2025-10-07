@@ -42,7 +42,31 @@ const config = {
                 exports: 'named'
             }
         }
-    }
+    },
+    plugins: [
+        {
+            name: 'dist-package-json',
+            apply: 'build',
+            generateBundle() {
+                const manifest = {
+                    name: pkg.name,
+                    version: pkg.version,
+                    type: 'module',
+                    main: './index.mjs',
+                    module: './index.mjs',
+                    exports: {
+                        '.': './index.mjs'
+                    }
+                };
+
+                this.emitFile({
+                    type: 'asset',
+                    fileName: 'package.json',
+                    source: `${JSON.stringify(manifest, null, 4)}\n`
+                });
+            }
+        }
+    ]
 };
 
 export default config;
