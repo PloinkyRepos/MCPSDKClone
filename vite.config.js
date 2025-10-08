@@ -10,7 +10,6 @@ const entryPoint = path.resolve(srcRoot, 'index.ts');
 const external = new Set([
     ...builtinModules,
     ...builtinModules.map(mod => `node:${mod}`),
-    ...Object.keys(pkg.dependencies ?? {}),
     ...Object.keys(pkg.peerDependencies ?? {})
 ]);
 
