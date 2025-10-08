@@ -5,6 +5,7 @@ import * as mcp from './server/mcp.js';
 import * as server from './server/index.js';
 import * as streamableHttp from './server/streamableHttp.js';
 import * as types from './types.js';
+import * as zod from 'zod';
 
 export {
     client,
@@ -13,5 +14,6 @@ export {
     mcp,
     server,
     streamableHttp as streamHttp,
-    types
+    types,
+    zod
 };
