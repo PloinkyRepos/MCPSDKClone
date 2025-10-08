@@ -32,10 +32,13 @@ jobs:
               run: npm run build
 
             - name: Ensure deployment PAT is configured
-              if: ${{ secrets.PLOINKY_PAT == '' }}
               run: |
-                  echo "PLOINKY_PAT secret is required for deployment"
-                  exit 1
+                  if [ -z "${PLOINKY_PAT:-}" ]; then
+                      echo "PLOINKY_PAT secret is required for deployment"
+                      exit 1
+                  fi
+              env:
+                  PLOINKY_PAT: ${{ secrets.PLOINKY_PAT }}
 
             - name: Checkout deployment repository
               uses: actions/checkout@v4
