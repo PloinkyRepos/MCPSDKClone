@@ -31,12 +31,18 @@ jobs:
             - name: Build package
               run: npm run build
 
+            - name: Ensure deployment PAT is configured
+              if: ${{ secrets.PLOINKY_PAT == '' }}
+              run: |
+                  echo "PLOINKY_PAT secret is required for deployment"
+                  exit 1
+
             - name: Checkout deployment repository
               uses: actions/checkout@v4
               with:
                   repository: ploinkyRepos/MCPSDK
                   path: deploy
-                  token: ${{ secrets.PLOINKY_PAT != '' && secrets.PLOINKY_PAT || github.token }}
+                  token: ${{ secrets.PLOINKY_PAT }}
 
             - name: Replace deployment contents
               run: |
