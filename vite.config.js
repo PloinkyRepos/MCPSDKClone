@@ -56,10 +56,7 @@ const config = {
                     exports: {
                         '.': './index.mjs'
                     },
-                    ...(pkg.engines ? { engines: pkg.engines } : {}),
-                    ...(pkg.dependencies ? { dependencies: pkg.dependencies } : {}),
-                    ...(pkg.peerDependencies ? { peerDependencies: pkg.peerDependencies } : {}),
-                    ...(pkg.optionalDependencies ? { optionalDependencies: pkg.optionalDependencies } : {})
+                    ...(pkg.engines ? { engines: pkg.engines } : {})
                 };
 
                 this.emitFile({
